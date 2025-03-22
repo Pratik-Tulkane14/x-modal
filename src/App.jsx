@@ -4,7 +4,6 @@ import Modal from "./components/Modal";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") {
@@ -20,6 +19,11 @@ function App() {
       window.removeEventListener("keydown", handleEscape);
     };
   }, [isModalOpen]);
+  const handleOutsideClick=(e)=>{
+     if (e.target === e.currentTarget) {
+       setIsModalOpen(false);
+     }
+  }
   return (
     <main>
       <h1 className="heading">User Modal Details</h1>
@@ -29,7 +33,11 @@ function App() {
       >
         Open Form
       </button>
-      {isModalOpen && <Modal />}
+      {isModalOpen && (
+        <div className="modal-backdrop" onClick={handleOutsideClick}>
+          <Modal setIsModalOpen={setIsModalOpen} />
+        </div>
+      )}
     </main>
   );
 }
